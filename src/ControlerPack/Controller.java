@@ -1,5 +1,18 @@
 package ControlerPack;
+import OutPutProperties.OutputProperties;
+import REPO.DBHandler;
 import UserClass.*;
+import UserValidation.PasswordOverMismatch;
+import UserValidation.UserAlreadyExistsException;
+import UserValidation.UserNotFoundException;
+import sun.applet.Main;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+
+
 interface CreatingControllerI
 {
     public static User createUser()
@@ -54,6 +67,7 @@ interface EditingControllerI
         //returns false if telNumber is already in List
         //graceful exception if user not found
         //returns true if already is ok
+        return false;
     }
     public static String editingHELP()
     {
@@ -74,22 +88,132 @@ interface EditingControllerI
  */
 public class Controller
 {
-    private static Controller controle = null;
-    private Controller()
+    static final Scanner scan = new Scanner(System.in);
+    private static Controller control = null;
+    OutputProperties property = new OutputProperties();
+    public Controller()
+    {
+        ControllerCreateSingleton();
+    }
+    private Controller  ControllerCreateSingleton()
+    {
+        if(control ==  null)
+            control = new Controller();
+        return control;
+    }
+    static public void signUp()
+    {
+        User user = Util.createUser();
+        try
+        {
+            DBHandler.createNewUserDBFolder(user);
+        }
+        catch (UserAlreadyExistsException e)
+        {
+            OutputProperties.printMessage("UserAlreadyExists");
+            signUp();
+        }
+
+    }
+    static public User signIn() throws PasswordOverMismatch
+    {
+        //username
+        OutputProperties.printMessage("ProvideYourUsername");
+        String username = scan.nextLine();
+        User user = null;
+        try
+        {
+            user = DBHandler.getUserFromDB(username);
+        }
+        catch (UserNotFoundException e)
+        {
+            return null;
+        }
+        //password
+        int mismatchCount = 0;
+        OutputProperties.printMessage("ProvideYourPassword");
+        String password = scan.nextLine();
+        while(!password.equals(user.getPassword())) {
+            ++mismatchCount;
+            OutputProperties.printMessage("IncorrectPassword");
+            password = scan.nextLine();
+            if (mismatchCount > 2)
+                throw new PasswordOverMismatch();
+        }
+        return user;
+    }
+    static public void signOut()
     {}
-    public Controller  ControlerCreateSingleton()
+    static public void addFriend(User user, String username) throws UserNotFoundException
     {
-        if(controle ==  null)
-            controle = new Controller();
-        return controle;
+        User friend = DBHandler.getUserFromDB(username);
+        if(friend.addToFriendList(user.getUsername())) {
+            OutputProperties.printMessage("UserWasSuccessfullyAdded");
+            DBHandler.serializeUser(friend);
+        }
+        else OutputProperties.printMessage("UserIsAlreadyInYourFriendList");
+
     }
-    static class CreatingControler implements CreatingControllerI
+    static public void showFriendsList(User user)
     {
-        // creating controller with its private util methods
+        String list = user.getFriendsList();
+        if(list.isEmpty())
+            OutputProperties.printMessage("YouHaveNoFriends");
+        System.out.println(list);
     }
-    static class EditingControler implements  EditingControllerI
+    static public void deleteFriend(User user,String friendUsername) throws UserNotFoundException
     {
-        //Editing controller with its private util functions
+        if(user.deleteUserFromFriendList(friendUsername))
+        {
+            System.out.println("User " + friendUsername + " Is Removed From Your Friend List.");
+            DBHandler.serializeUser(user);
+        }
+        else
+        {
+            System.out.println(friendUsername + " is not your friend.");
+        }
+
+    }
+    static public void showTelNumbers(User user)
+    {
+        System.out.println(user.getAllAddressList());
     }
 
+    static public void addTelNumber(User user, String address)
+    {
+        user.addToPhoneNumberList(address);
+        OutputProperties.printMessage("AddressBeenAdded");
+    }
+    static public void exit()
+    {
+        OutputProperties.printMessage("SeeYouLater");
+
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+        System.exit(0);
+    }
+    static class Util
+    {
+        static User createUser()
+        {
+            User user = new User();
+            OutputProperties.printMessage("ProvideYourUsername");
+            user.setUsername(scan.nextLine());
+            OutputProperties.printMessage("ProvideYourPassword");
+            user.setPassword(scan.nextLine());
+            user.setUsernameDBFolderPath(user.getUsername() + "DataBase.txt");
+            user.setFriendsList(new TreeSet<>());
+            user.setPhoneNumberList(new ArrayList<>());
+            return user;
+        }
+    }
 }
+
+
+
