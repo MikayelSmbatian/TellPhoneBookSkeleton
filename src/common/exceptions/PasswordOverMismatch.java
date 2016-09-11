@@ -1,4 +1,4 @@
-package UserValidation;
+package common.exceptions;
 
 /**
  * Created by Family on 05.09.2016.

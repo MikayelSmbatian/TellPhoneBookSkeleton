@@ -1,10 +1,9 @@
-import ControlerPack.Controller;
-import ControlerPack.Controller.*;
+import controller.Controller;
 import OutPutProperties.OutputProperties;
 import REPO.DBHandler;
-import UserClass.User;
-import UserValidation.PasswordOverMismatch;
-import UserValidation.UserNotFoundException;
+import common.bean.User;
+import common.exceptions.PasswordOverMismatch;
+import common.exceptions.UserNotFoundException;
 
 import java.util.Scanner;
 

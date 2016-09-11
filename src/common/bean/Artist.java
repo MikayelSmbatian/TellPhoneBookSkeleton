@@ -1,4 +1,4 @@
-package ArtistClass;
+package common.bean;
 
 import java.util.ArrayList;
 

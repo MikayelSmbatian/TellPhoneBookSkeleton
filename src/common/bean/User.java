@@ -1,10 +1,7 @@
-package UserClass;
+package common.bean;
 
-import ArtistClass.Artist;
-import ControlerPack.Controller;
 import REPO.DBHandler;
-import UserValidation.UserNotFoundException;
-import org.omg.CORBA.UnknownUserException;
+import common.exceptions.UserNotFoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;

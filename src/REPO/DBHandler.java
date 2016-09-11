@@ -1,7 +1,7 @@
 package REPO;
-import UserClass.User;
-import UserValidation.*;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import common.bean.User;
+import common.exceptions.UserAlreadyExistsException;
+import common.exceptions.UserNotFoundException;
 
 import java.io.*;
 

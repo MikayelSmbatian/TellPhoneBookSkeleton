@@ -1,11 +1,10 @@
-package ControlerPack;
+package controller;
 import OutPutProperties.OutputProperties;
 import REPO.DBHandler;
-import UserClass.*;
-import UserValidation.PasswordOverMismatch;
-import UserValidation.UserAlreadyExistsException;
-import UserValidation.UserNotFoundException;
-import sun.applet.Main;
+import common.exceptions.PasswordOverMismatch;
+import common.exceptions.UserAlreadyExistsException;
+import common.exceptions.UserNotFoundException;
+import common.bean.User;
 
 import java.util.ArrayList;
 import java.util.Scanner;

@@ -1,6 +1,6 @@
-package ControlerPack;
+package controller;
 
-import UserClass.User;
+import common.bean.User;
 
 /**
  * Created by Family on 06.09.2016.
