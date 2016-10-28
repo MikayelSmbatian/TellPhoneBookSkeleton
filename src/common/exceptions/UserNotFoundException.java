@@ -5,6 +5,12 @@ package common.exceptions;
  */
 public class UserNotFoundException extends InvalidUserException
 {
+    UserNotFoundException(String msg, Exception e)
+    {
+        super(msg, e);
+    }
+    public UserNotFoundException()
+    {}
     @Override
     public String getMessage() {
         return "User not found ";

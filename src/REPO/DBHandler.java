@@ -41,23 +41,18 @@ public class DBHandler implements Serializable
             t.printStackTrace();
         }
     }
-    static public User getUserFromDB(String username) throws UserNotFoundException
-    {
+    static public User getUserFromDB(String username) throws UserNotFoundException {
         User user = new User();
-        try
-        {
+        try {
             File f = new File(username + "DataBase.txt");
-            if(!f.exists())
+            if (!f.exists())
                 throw new UserNotFoundException();
             FileInputStream fis = new FileInputStream(username + "DataBase.txt");
             ObjectInputStream oin = new ObjectInputStream(fis);
             user = (User) oin.readObject();
-        }
-        catch (IOException | ClassNotFoundException ioe)
-        {
+        } catch (IOException | ClassNotFoundException ioe) {
             ioe.printStackTrace();
         }
         return user;
     }
-
 }

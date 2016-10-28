@@ -17,7 +17,6 @@ public class User implements Serializable
     private String usernameDBFolderPath;
     private ArrayList<String> phoneNumberList = new ArrayList<String>();
     private TreeSet<String> friendsList = new TreeSet<String>();
-    private TreeSet<Artist> playelist;
 
     public User() {}
 

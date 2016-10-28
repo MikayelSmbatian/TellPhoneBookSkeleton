@@ -5,6 +5,14 @@ package common.exceptions;
  */
 public class PasswordOverMismatch extends InvalidUserException
 {
+    public PasswordOverMismatch(String msg, Exception e)
+    {
+        super(msg, e);
+    }
+    public PasswordOverMismatch()
+    {
+        super();
+    }
     @Override
     public void printStackTrace()
     {

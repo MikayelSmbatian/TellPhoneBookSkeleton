@@ -5,6 +5,11 @@ package common.exceptions;
  */
 public class UserAlreadyExistsException extends InvalidUserException
 {
+    public UserAlreadyExistsException(String msg, Exception e) {
+        super(msg, e);
+    }
+    public UserAlreadyExistsException()
+    {}
     @Override
     public void printStackTrace() {
         super.printStackTrace();

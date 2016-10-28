@@ -16,6 +16,11 @@ public class InvalidUserException extends Exception
         return "INVALID USER";
     }
 
+    InvalidUserException(String msg,Exception e)
+    {
+        super(msg,e);
+    }
+
     InvalidUserException()
     {
 
